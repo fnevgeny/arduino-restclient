@@ -1,11 +1,9 @@
 #include "RestClient.h"
 
 #ifdef HTTP_DEBUG
-#define HTTP_DEBUG_PRINT(string) (Serial.print(string))
-#endif
-
-#ifndef HTTP_DEBUG
-#define HTTP_DEBUG_PRINT(string)
+#  define HTTP_DEBUG_PRINT(string) (Serial.print(string))
+#else
+#  define HTTP_DEBUG_PRINT(string)
 #endif
 
 RestClient::RestClient(const char* _host){
