@@ -10,23 +10,11 @@
 #  define HTTP_DEBUG_PRINT(string)
 #endif
 
-RestClient::RestClient(){
+RestClient::RestClient(EthernetClient *_client){
+  client = _client;
   host = NULL;
+  hostIp = {0, 0, 0, 0};
   port = 80;
-  num_headers = 0;
-  contentType = HTTP_DEFAULT_CONTENT_TYPE;
-}
-
-RestClient::RestClient(const char* _host){
-  host = _host;
-  port = 80;
-  num_headers = 0;
-  contentType = HTTP_DEFAULT_CONTENT_TYPE;
-}
-
-RestClient::RestClient(const char* _host, int _port){
-  host = _host;
-  port = _port;
   num_headers = 0;
   contentType = HTTP_DEFAULT_CONTENT_TYPE;
 }
@@ -100,7 +88,7 @@ int RestClient::del(const char* path, const char* body, String* response){
 
 void RestClient::write(const char* string){
   HTTP_DEBUG_PRINT(string);
-  client.print(string);
+  client->print(string);
 }
 
 void RestClient::setHeader(const char* header){
@@ -121,9 +109,9 @@ int RestClient::request(const char* method, const char* path,
 
   byte status;
   if (host != NULL) {
-    status = client.connect(host, port);
+    status = client->connect(host, port);
   } else {
-    status = client.connect(hostIp, port);
+    status = client->connect(hostIp, port);
   }
   if (status == 1) {
     HTTP_DEBUG_PRINT("HTTP: connected\n");
@@ -170,7 +158,7 @@ int RestClient::request(const char* method, const char* path,
     //cleanup
     HTTP_DEBUG_PRINT("HTTP: stop client\n");
     num_headers = 0;
-    client.stop();
+    client->stop();
     delay(50);
     HTTP_DEBUG_PRINT("HTTP: client stopped\n");
 
@@ -199,13 +187,13 @@ int RestClient::readResponse(String* response) {
   }
 
   HTTP_DEBUG_PRINT("HTTP: RESPONSE: \n");
-  while (client.connected()) {
+  while (client->connected()) {
     HTTP_DEBUG_PRINT(".");
 
-    if (client.available()) {
+    if (client->available()) {
       HTTP_DEBUG_PRINT(",");
 
-      char c = client.read();
+      char c = client->read();
       HTTP_DEBUG_PRINT(c);
 
       if(c == ' ' && !inStatus){

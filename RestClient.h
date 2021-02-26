@@ -5,9 +5,7 @@
 class RestClient {
 
   public:
-    RestClient();
-    RestClient(const char* host);
-    RestClient(const char* host, int port);
+    RestClient(EthernetClient *client);
 
     // Set server attributes
     void setServer(const char* host);
@@ -47,7 +45,7 @@ class RestClient {
     int del(const char*, const char*, String*);
 
   private:
-    EthernetClient client;
+    EthernetClient *client;
     int readResponse(String*);
     void write(const char*);
     const char* host;
