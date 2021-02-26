@@ -48,5 +48,5 @@ class RestClient {
     int port;
     int num_headers;
     const char* headers[10];
-	const char* contentType;
+    const char* contentType;
 };
