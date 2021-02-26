@@ -143,9 +143,9 @@ int RestClient::request(const char* method, const char* path,
       sprintf(contentLength, "Content-Length: %d\r\n", strlen(body));
       write(contentLength);
 
-	  write("Content-Type: ");
-	  write(contentType);
-	  write("\r\n");
+      write("Content-Type: ");
+      write(contentType);
+      write("\r\n");
     }
 
     write("\r\n");
