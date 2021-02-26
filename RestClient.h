@@ -8,10 +8,6 @@ class RestClient {
     RestClient(const char* host);
     RestClient(const char* _host, int _port);
 
-    //Client Setup
-    bool dhcp();
-    int begin(byte*);
-
     //Generic HTTP Request
     int request(const char* method, const char* path,
                 const char* body, String* response);
