@@ -38,6 +38,12 @@ void RestClient::setServer(const char* _host, int _port) {
   port = _port;
 }
 
+void RestClient::setServer(IPAddress ip, int _port) {
+  host = NULL;
+  hostIp = ip;
+  port = _port;
+}
+
 // GET path
 int RestClient::get(const char* path){
   return request("GET", path, NULL, NULL);
@@ -109,7 +115,13 @@ int RestClient::request(const char* method, const char* path,
 
   HTTP_DEBUG_PRINT("HTTP: connect\n");
 
-  if(client.connect(host, port)){
+  byte status;
+  if (host != NULL) {
+    status = client.connect(host, port);
+  } else {
+    status = client.connect(hostIp, port);
+  }
+  if (status == 1) {
     HTTP_DEBUG_PRINT("HTTP: connected\n");
     HTTP_DEBUG_PRINT("REQUEST: \n");
     // Make a HTTP request line:

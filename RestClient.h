@@ -12,6 +12,7 @@ class RestClient {
     // Set server attributes
     void setServer(const char* host);
     void setServer(const char* host, int port);
+    void setServer(IPAddress ip, int port);
 
     //Generic HTTP Request
     int request(const char* method, const char* path,
@@ -50,6 +51,7 @@ class RestClient {
     int readResponse(String*);
     void write(const char*);
     const char* host;
+    IPAddress hostIp;
     int port;
     int num_headers;
     const char* headers[10];
