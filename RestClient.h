@@ -5,8 +5,13 @@
 class RestClient {
 
   public:
+    RestClient();
     RestClient(const char* host);
-    RestClient(const char* _host, int _port);
+    RestClient(const char* host, int port);
+
+    // Set server attributes
+    void setServer(const char* host);
+    void setServer(const char* host, int port);
 
     //Generic HTTP Request
     int request(const char* method, const char* path,

@@ -6,6 +6,13 @@
 #  define HTTP_DEBUG_PRINT(string)
 #endif
 
+RestClient::RestClient(){
+  host = NULL;
+  port = 80;
+  num_headers = 0;
+  contentType = "application/x-www-form-urlencoded";	// default
+}
+
 RestClient::RestClient(const char* _host){
   host = _host;
   port = 80;
@@ -18,6 +25,17 @@ RestClient::RestClient(const char* _host, int _port){
   port = _port;
   num_headers = 0;
   contentType = "application/x-www-form-urlencoded";	// default
+}
+
+// Set server attributes
+void RestClient::setServer(const char* _host) {
+  host = _host;
+  port = 80;
+}
+
+void RestClient::setServer(const char* _host, int _port) {
+  host = _host;
+  port = _port;
 }
 
 // GET path
