@@ -1,5 +1,9 @@
 #include "RestClient.h"
 
+#ifndef HTTP_DEFAULT_CONTENT_TYPE
+#  define HTTP_DEFAULT_CONTENT_TYPE "application/json"
+#endif
+
 #ifdef HTTP_DEBUG
 #  define HTTP_DEBUG_PRINT(string) (Serial.print(string))
 #else
@@ -10,21 +14,21 @@ RestClient::RestClient(){
   host = NULL;
   port = 80;
   num_headers = 0;
-  contentType = "application/x-www-form-urlencoded";	// default
+  contentType = HTTP_DEFAULT_CONTENT_TYPE;
 }
 
 RestClient::RestClient(const char* _host){
   host = _host;
   port = 80;
   num_headers = 0;
-  contentType = "application/x-www-form-urlencoded";	// default
+  contentType = HTTP_DEFAULT_CONTENT_TYPE;
 }
 
 RestClient::RestClient(const char* _host, int _port){
   host = _host;
   port = _port;
   num_headers = 0;
-  contentType = "application/x-www-form-urlencoded";	// default
+  contentType = HTTP_DEFAULT_CONTENT_TYPE;
 }
 
 // Set server attributes
