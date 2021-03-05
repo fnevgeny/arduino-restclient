@@ -115,7 +115,7 @@ void RestClient::setContentType(const char* contentTypeValue){
 int RestClient::request(const char* method, const char* path,
                   const char* body, String* response){
 
-  HTTP_DEBUG_PRINT("HTTP: connect\n");
+  HTTP_DEBUG_PRINT(F("HTTP: connect\n"));
 
   byte status;
   if (host != NULL) {
@@ -124,8 +124,8 @@ int RestClient::request(const char* method, const char* path,
     status = client->connect(hostIp, port);
   }
   if (status == 1) {
-    HTTP_DEBUG_PRINT("HTTP: connected\n");
-    HTTP_DEBUG_PRINT("REQUEST: \n");
+    HTTP_DEBUG_PRINT(F("HTTP: connected\n"));
+    HTTP_DEBUG_PRINT(F("REQUEST: \n"));
     // Make a HTTP request line:
     write(method);
     write(" ");
@@ -161,19 +161,19 @@ int RestClient::request(const char* method, const char* path,
     // make sure everything is written
     client->flush();
 
-    HTTP_DEBUG_PRINT("HTTP: call readResponse\n");
+    HTTP_DEBUG_PRINT(F("HTTP: call readResponse\n"));
     int statusCode = readResponse(response);
-    HTTP_DEBUG_PRINT("HTTP: return readResponse\n");
+    HTTP_DEBUG_PRINT(F("HTTP: return readResponse\n"));
 
     //cleanup
-    HTTP_DEBUG_PRINT("HTTP: stop client\n");
+    HTTP_DEBUG_PRINT(F("HTTP: stop client\n"));
     num_headers = 0;
     client->stop();
-    HTTP_DEBUG_PRINT("HTTP: client stopped\n");
+    HTTP_DEBUG_PRINT(F("HTTP: client stopped\n"));
 
     return statusCode;
   }else{
-    HTTP_DEBUG_PRINT("HTTP Connection failed\n");
+    HTTP_DEBUG_PRINT(F("HTTP Connection failed\n"));
     return 0;
   }
 }
@@ -192,18 +192,18 @@ int RestClient::readResponse(String* response) {
   unsigned long millis_start;
 
   if(response == NULL){
-    HTTP_DEBUG_PRINT("HTTP: NULL RESPONSE POINTER: \n");
+    HTTP_DEBUG_PRINT(F("HTTP: NULL RESPONSE POINTER: \n"));
   }else{
-    HTTP_DEBUG_PRINT("HTTP: NON-NULL RESPONSE POINTER: \n");
+    HTTP_DEBUG_PRINT(F("HTTP: NON-NULL RESPONSE POINTER: \n"));
   }
 
-  HTTP_DEBUG_PRINT("HTTP: RESPONSE: \n");
+  HTTP_DEBUG_PRINT(F("HTTP: RESPONSE: \n"));
   millis_start = millis();
   while (client->connected() && millis() < millis_start + 1000L*responseTimeout) {
-    HTTP_DEBUG_PRINT(".");
+    HTTP_DEBUG_PRINT(F("."));
 
     if (client->available()) {
-      HTTP_DEBUG_PRINT(",");
+      HTTP_DEBUG_PRINT(F(","));
 
       char c = client->read();
       HTTP_DEBUG_PRINT(c);
@@ -250,6 +250,6 @@ int RestClient::readResponse(String* response) {
     }
   }
 
-  HTTP_DEBUG_PRINT("HTTP: return readResponse3\n");
+  HTTP_DEBUG_PRINT(F("HTTP: return readResponse3\n"));
   return code;
 }
