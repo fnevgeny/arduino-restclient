@@ -20,6 +20,9 @@ class RestClient {
     // Set Content-Type Header
     void setContentType(const char*);
 
+    // Set maximal response length stored
+    void setMaxResponseLength(unsigned int length);
+
     // GET path
     int get(const char*);
     // GET path and response
@@ -54,4 +57,5 @@ class RestClient {
     int num_headers;
     const char* headers[10];
     const char* contentType;
+    unsigned int maxResponseLength;
 };

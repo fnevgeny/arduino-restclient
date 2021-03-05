@@ -17,6 +17,7 @@ RestClient::RestClient(EthernetClient *_client){
   port = 80;
   num_headers = 0;
   contentType = HTTP_DEFAULT_CONTENT_TYPE;
+  maxResponseLength = (unsigned int) (-1);
 }
 
 // Set server attributes
@@ -34,6 +35,10 @@ void RestClient::setServer(IPAddress ip, int _port) {
   host = NULL;
   hostIp = ip;
   port = _port;
+}
+
+void RestClient::setMaxResponseLength(unsigned int length) {
+  maxResponseLength = length;
 }
 
 // GET path
@@ -209,13 +214,20 @@ int RestClient::readResponse(String* response) {
       }
 
       if(httpBody){
-        //only write response if its not null
-        if(response != NULL) response->concat(c);
+        if(response != NULL && response->length() < maxResponseLength) {
+          response->concat(c);
+        } else {
+          break;
+        }
       }
       else
       {
           if (c == '\n' && currentLineIsBlank) {
             httpBody = true;
+            if (response == NULL) {
+              // nothing interesting for us will follow
+              break;
+            }
           }
 
           if (c == '\n') {
