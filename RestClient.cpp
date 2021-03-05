@@ -18,6 +18,7 @@ RestClient::RestClient(EthernetClient *_client){
   num_headers = 0;
   contentType = HTTP_DEFAULT_CONTENT_TYPE;
   maxResponseLength = (unsigned int) (-1);
+  responseTimeout = 300;
 }
 
 // Set server attributes
@@ -39,6 +40,10 @@ void RestClient::setServer(IPAddress ip, int _port) {
 
 void RestClient::setMaxResponseLength(unsigned int length) {
   maxResponseLength = length;
+}
+
+void RestClient::setResponseTimeout(unsigned int timeout) {
+  responseTimeout = timeout;
 }
 
 // GET path
@@ -184,6 +189,8 @@ int RestClient::readResponse(String* response) {
   int i = 0;
   int code = 0;
 
+  unsigned long millis_start;
+
   if(response == NULL){
     HTTP_DEBUG_PRINT("HTTP: NULL RESPONSE POINTER: \n");
   }else{
@@ -191,7 +198,8 @@ int RestClient::readResponse(String* response) {
   }
 
   HTTP_DEBUG_PRINT("HTTP: RESPONSE: \n");
-  while (client->connected()) {
+  millis_start = millis();
+  while (client->connected() && millis() < millis_start + 1000L*responseTimeout) {
     HTTP_DEBUG_PRINT(".");
 
     if (client->available()) {

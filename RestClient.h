@@ -23,6 +23,9 @@ class RestClient {
     // Set maximal response length stored
     void setMaxResponseLength(unsigned int length);
 
+    // Set response timeout
+    void setResponseTimeout(unsigned int timeout);
+
     // GET path
     int get(const char*);
     // GET path and response
@@ -58,4 +61,5 @@ class RestClient {
     const char* headers[10];
     const char* contentType;
     unsigned int maxResponseLength;
+    unsigned int responseTimeout;
 };
