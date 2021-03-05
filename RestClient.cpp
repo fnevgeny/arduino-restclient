@@ -148,8 +148,8 @@ int RestClient::request(const char* method, const char* path,
       write("\r\n");
     }
 
-    //make sure you write all those bytes.
-    delay(100);
+    // make sure everything is written
+    client->flush();
 
     HTTP_DEBUG_PRINT("HTTP: call readResponse\n");
     int statusCode = readResponse(response);
@@ -159,7 +159,6 @@ int RestClient::request(const char* method, const char* path,
     HTTP_DEBUG_PRINT("HTTP: stop client\n");
     num_headers = 0;
     client->stop();
-    delay(50);
     HTTP_DEBUG_PRINT("HTTP: client stopped\n");
 
     return statusCode;
